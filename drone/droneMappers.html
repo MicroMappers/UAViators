@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Humanitarian UAV Network</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link type="text/css"
+		href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css" rel="stylesheet" />
+    <link rel="icon" href="media/images/drone/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="dist/leaflet.css" />
+    <link rel="stylesheet" href="dist/Control.OSMGeocoder.css" />
+    <link rel="stylesheet" href="media/css/screen.css" />
+	<link rel="stylesheet" href="dist/MarkerCluster.css" />
+	<link rel="stylesheet" href="dist/MarkerCluster.Default.css" />
+
+
+    <script src="dist/leaflet.js"></script>
+	<script src="dist/leaflet.markercluster-src.js"></script>
+    <script src="dist/Control.OSMGeocoder.js"></script>
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/jquery.youtubepopup.min.js"></script>
+    <script type="text/javascript" src="js/jquery.jscrollpane.min.js"></script>
+    <script type="text/javascript" src="js/Control.Loading.js"></script>
+    <script type="text/javascript" src="js/droneApp.js"></script>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+
+    <script>
+        var geoDatColection = [];
+        var geoLayerCollection = [];
+        var mapDataCollection = [];
+
+        var geoInfoProperty;
+        var indexID;
+    </script>
+</head>
+<body>
+    <header>
+        <div><a href="#openModal" class="addUAV"></a></div>
+    </header>
+    <div id="map"></div>
+
+    <div id="sidebar">
+        <div id="posts-list-widget-tweet" class="widget posts-list">
+            <div class="post-thumbnail">
+                <ol id="tweetList"></ol>
+             </div>
+        </div>
+    </div>
+
+<div id="openModal" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		 <form id=uavInfo name="uavInfo" action="">
+			<fieldset>
+				<legend>Add Location</legend>
+				<ol>
+                    <div >
+                        <div>
+                            <div>
+                            <input id="locationRef"  type="text" placeholder="Paste reference to location, place, town, etc. here and click Search -->">
+                            <button id="searchBtn" onclick="search()" class="btn" style="margin-top: -27px;margin-bottom: 10px;margin-right: 5px;"><i class="icon-search"></i> Search</button>
+                            </div>
+                            <div id="geocoding" style="display:block;position: relative;">
+                               <div id="map_canvas" style="width: 630px; height: 180px;" ></div>
+                               <div id="coordinates">
+                                    <i class="icon-map-marker"></i> Approximate UAV Video location:
+                                    <strong> Longitude:</strong> <span id="lon"></span>,
+                                    <strong>Latitude:</strong> <span id="lat"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+                    <script src="js/addUAV.js"></script>
+				</ol>
+
+			</fieldset>
+
+            <fieldset>
+				<legend>Video Info</legend>
+				<ol>
+					<li>
+						<label for=email>Email</label>
+						<input id=email name=email type=email placeholder="example@domain.com" required autofocus>
+                    <br/>
+						<label for=vURL>Video URL</label>
+						<input id=vURL name=vURL type=text placeholder="Please enter video url" required>
+
+					</li>
+				</ol>
+                <input id=agree name=agree type=checkbox checked>I acknowledge that this video is relevant to the mission of the Humanitarian UAV Network and that it does not violate privacy or copyrights. I also confirm that I have read the Network's <a href="http://uaviators.org/docs" target="_blank">Code of Conduct</a>.
+                <button type=submit id="submit" name="submit">Submit</button>
+			</fieldset>
+
+
+		</form>
+    </div>
+</div>
+
+<div id="uavOpenModal" class="modalDialog">
+	<div>
+		<a href="#close" title="close" class="close" id="videoClose" onclick="$('#uavVideo').attr('src', '');">X</a>
+        <iframe id="uavVideo" name="uavVideo" width="680" height="500" frameborder="0"></iframe>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>

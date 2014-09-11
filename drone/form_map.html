@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Add your UAV Video</title>
+    <link rel="stylesheet" href="media/css/screen.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script>
+
+        var geoInfo;
+    </script>
+  </head>
+
+  <body>
+  		<form id=uavInfo>
+			<fieldset>
+				<legend>Add Location</legend>
+				<ol>
+                    <div >
+                        <div>
+                            <div>
+                            <input id="locationRef"  type="text" placeholder="Paste reference to location, place, town, etc. here and click Search -->">
+                            <button id="searchBtn" onclick="search()" class="btn" style="margin-top: -27px;margin-bottom: 10px;margin-right: 5px;"><i class="icon-search"></i> Search</button>
+                            </div>
+                            <div id="geocoding" style="display:block;position: relative;">
+                               <div id="map_canvas" style="width: 630px; height: 180px;" ></div>
+                               <div id="coordinates">
+                                    <i class="icon-map-marker"></i> Approximate UAV Video location:
+                                    <strong> Longitude:</strong> <span id="lon"></span>,
+                                    <strong>Latitude:</strong> <span id="lat"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+                    <script src="js/addUAV.js"></script>
+				</ol>
+
+			</fieldset>
+
+            <fieldset>
+				<legend>Video Info</legend>
+				<ol>
+					<li>
+						<label for=email>Email</label>
+						<input id=email name=email type=email placeholder="example@domain.com" required autofocus>
+                    <br/>
+						<label for=vURL>Video URL</label>
+						<input id=vURL name=vURL type=text placeholder="Please enter video url" required>
+
+					</li>
+				</ol>
+                <input id=agree name=agree type=checkbox checked>I acknowledge that this video is relevant to the mission of the Humanitarian UAV Network and that it does not violate privacy or copyrights. I also confirm that I have read the Network's <a href="http://uaviators.org/docs" target="_blank">Code of Conduct</a>.
+
+                <button type=submit id="submit" name="submit">Submit</button>
+			</fieldset>
+
+
+		</form>
+
+
+
+
+  </body>
+</html>
