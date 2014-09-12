@@ -209,9 +209,10 @@ $(function()
         if (true) { // email == openVidEmail
             jsonData = JSON.stringify({ "id": openVidId, "email": email });
             $.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/delete/" + openVidId + "/" + email, jsonData, function(data, response) {
-                    alert(response);
-                });
+                alert(response);
+            });
             $("#deleteDialog").dialog("close");
+            $("#tweetList li[name=" + openVidId + "]").remove();
             window.location.href='#close';
         } else {
             $("#deleteDialog label").after("<div class='error'>That email is not correct.</div>");
