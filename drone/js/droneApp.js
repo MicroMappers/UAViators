@@ -9,7 +9,7 @@ $(function()
     map.addControl(osmGeocoder);
     map.addControl( L.control.zoom({position: 'bottomright'}) );
 
-    var markers = new L.MarkerClusterGroup({});
+    var markers = new L.MarkerClusterGroup({maxClusterRadius:1});
     $("#commentDialog").dialog({ autoOpen: false, modal: true, buttons: [ { text: "Cancel", click: function() { $(this).dialog("close"); } }, { text: "Submit", click: submitFlag } ] });
     $("#deleteDialog").dialog({ autoOpen: false, modal: true, buttons: [ { text: "Cancel", click: function() { $(this).dialog("close"); } }, { text: "Submit", click: submitDelete } ] });
     $(".ui-icon").text("X");
@@ -33,9 +33,9 @@ $(function()
     var autoGeoRefresh = setInterval(
                 function ()  // Call out to get the time
                 {
-                    var requestURL = 'http://gis.micromappers.org/drone/rest/web/jsonp/getdrones';
+                    var requestURL = "http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/getdrones" //'http://gis.micromappers.org/drone/rest/web/jsonp/getdrones';
                     if(typeof indexID != 'undefined' ){
-                        requestURL = 'http://gis.micromappers.org/drone/rest/web/jsonp/drones/after/' + indexID;
+                        requestURL = 'http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/drones/after/' + indexID; //'http://gis.micromappers.org/drone/rest/web/jsonp/drones/after/'
                     }
 
                     $.ajax({
@@ -58,11 +58,8 @@ $(function()
         $("#loading-gif").remove();
         $("#loading-failure").remove();
         $.each(data, function(i, field){
-
-            
+            // alert(field.info.email);
             field.info.email = 'david@spatialcollective.com';
-            
-
 
             dataCount++;
             geoDatColection.push( field );
@@ -169,7 +166,7 @@ $(function()
             var myString = JSON.stringify(data);
            // myString = "jsonp(" + myString + ");"
            // console.log("myString: " + myString);
-            var urlPost = "http://gis.micromappers.org/drone/rest/web/add";
+            var urlPost = "http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/add";
 
 
             $.post( urlPost, myString );
@@ -209,9 +206,16 @@ $(function()
 
     function submitDelete() {
         var email = $("#deleteDialog input").val();
-        if (email == openVidEmail) {
-            jsonData = JSON.stringify({ "id": openVidId });
-            $.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/report/delete", jsonData);
+        if (true) { // email == openVidEmail
+            jsonData = JSON.stringify({ "id": openVidId, "email": email });
+            $.ajax({
+                url: "http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/delete/" + openVidId + "/" + email,
+                jsonp: "callback",
+                data: jsonData,
+                success: function(response) {
+                    alert(response);
+                }
+            });
             $("#deleteDialog").dialog("close");
             window.location.href='#close';
         } else {
