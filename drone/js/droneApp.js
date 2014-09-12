@@ -208,14 +208,9 @@ $(function()
         var email = $("#deleteDialog input").val();
         if (true) { // email == openVidEmail
             jsonData = JSON.stringify({ "id": openVidId, "email": email });
-            $.ajax({
-                url: "http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/delete/" + openVidId + "/" + email,
-                jsonp: "callback",
-                data: jsonData,
-                success: function(response) {
+            $.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/delete/" + openVidId + "/" + email, jsonData, function(data, response) {
                     alert(response);
-                }
-            });
+                });
             $("#deleteDialog").dialog("close");
             window.location.href='#close';
         } else {
