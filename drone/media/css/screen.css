@@ -67,6 +67,10 @@ header, div#header {
 .ui-dialog {
   z-index: 100000;
 }
+.existingEmail {
+  font-weight: bold;
+  text-align: center;
+}
 
 .addUAV {
     position: absolute;

@@ -121,7 +121,6 @@ $(function() {
                     activeVideo.vidId = $(evt.currentTarget).attr('name');
                     activeVideo.name = $(evt.currentTarget).find('.displayName').text();
                     activeVideo.lng = $(evt.currentTarget).find('.uavLng').val();
-                    alert(activeVideo.lng);
                     activeVideo.lat = $(evt.currentTarget).find('.uavLat').val();
                     activeVideo.email = $(evt.currentTarget).children('.uavVideURL').attr('email');
                     activeVideo.url = url;
@@ -201,6 +200,7 @@ $(function() {
 
     	window.location.href='#openModal';
     	$("#openModal #locationRef").val(activeVideo.name);
+    	$("#openModal .existingEmail").show();
     	$("#openModal #vURL").val(activeVideo.url);
     	$("#openModal #lon").text(activeVideo.lng);
     	$("#openModal #lat").text(activeVideo.lat);
@@ -232,7 +232,7 @@ $(function() {
         if (true) { // email == openVidEmail
             jsonData = JSON.stringify({ "id": activeVideo.vidId, "email": email });
             $.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData, function(data, response) {
-                alert(response);
+                // alert(response);
             });
             $("#deleteDialog").dialog("close");
             $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
@@ -317,5 +317,14 @@ $(function() {
             $("#submit").removeAttr('disabled');
         else
             $("#submit").attr('disabled','disabled');
+    });
+
+    $('#newUAV').click(function() {
+    	$("#openModal #locationRef").val("");
+    	$("#openModal #vURL").val("");
+    	$("#openModal .existingEmail").hide();
+
+    	$("#uavInfo #vId").remove();
+        $("#uavInfo").attr('action', "http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/add");
     });
 });
