@@ -25,7 +25,6 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 
     <script>
-        var geoDatColection = [];
         var geoLayerCollection = [];
         var mapDataCollection = [];
 
@@ -37,7 +36,7 @@
     <header>
 
         <div><a href="http://uaviators.org/map" class="goToUAVHome"></a></div>
-        <div><a href="#openModal" class="addUAV"></a></div>
+        <div><a href="#openModal" class="addUAV" id="newUAV"></a></div>
 
     </header>
     <div id='loading-gif'><img src="media/images/loading3.gif" width="80" height="80" /></div>
@@ -54,7 +53,7 @@
 <div id="openModal" class="modalDialog">
 	<div>
 		<a href="#close" title="Close" class="close">X</a>
-		 <form id=uavInfo name="uavInfo" action="">
+		 <form id="uavInfo" name="uavInfo" action="http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/add">
 			<fieldset>
 				<legend>Add Location</legend>
 				<ol>
@@ -106,6 +105,7 @@
     	<div>
             <a href="#close" title="close" class="close" id="videoClose" onclick="$('#uavVideo').attr('src', '');">X</a>
             <div id='flag-btn' class='video-btn'><img src="media/images/flag.png" width="40" height="32" title="Report"/></div>
+            <div id='edit-btn' class='video-btn'><img src="media/images/pencil.png" width="40" height="32" title="Edit"/></div>
             <div id='delete-btn' class='video-btn'><img src="media/images/trash_can.png" width="40" height="32" title="Delete"/></div>
             <iframe id="uavVideo" name="uavVideo" width="680" height="500" frameborder="0"></iframe>
         </div>

@@ -49,6 +49,9 @@ header, div#header {
   cursor: pointer;
 }
 #delete-btn {
+  top: 140px;
+}
+#edit-btn {
   top: 100px;
 }
 .video-btn:hover {
