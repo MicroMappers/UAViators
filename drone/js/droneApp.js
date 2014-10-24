@@ -179,6 +179,7 @@ $(function() {
 
     function reportVideo() {
         $("#commentDialog .error").remove();
+        $("#commentDialog #flagComment").val("");
         $("#commentDialog").dialog("open");
     }
 

@@ -459,6 +459,18 @@ form#uavInfo input[type=radio] {
 					margin-right: 5px;
 }
 
+form#uavInfo .btn-divider {
+    margin: 10px 0;
+}
+form#uavInfo .btn-divider #cancel {
+  float: left;
+  background: #fff !important;
+  color: #484848 !important;
+}
+form#uavInfo .btn-divider #submit {
+  float: right;
+}
+
 form#uavInfo button, .ui-button {
     background: #484848;
     border: none;

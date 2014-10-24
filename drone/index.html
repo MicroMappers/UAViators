@@ -12,7 +12,6 @@
 	<link rel="stylesheet" href="dist/MarkerCluster.css" />
 	<link rel="stylesheet" href="dist/MarkerCluster.Default.css" />
 
-
     <script src="dist/leaflet.js"></script>
 	<script src="dist/leaflet.markercluster-src.js"></script>
     <script src="dist/Control.OSMGeocoder.js"></script>
@@ -66,7 +65,7 @@
                             <div id="geocoding" style="display:block;position: relative;">
                                <div id="map_canvas" style="width: 630px; height: 180px;" ></div>
                                <div id="coordinates">
-                                    <i class="icon-map-marker"></i> Approximate UAV Video location:
+                                    <i class="icon-map-marker"></i> Approximate UAV location:
                                     <strong> Longitude:</strong> <span id="lon"></span>,
                                     <strong>Latitude:</strong> <span id="lat"></span>
                                 </div>
@@ -81,10 +80,10 @@
 			</fieldset>
 
             <fieldset>
-				<legend>Video Info</legend>
+				<legend>Info</legend>
 				<ol>
 					<li>
-                        <p class='existingEmail' style="display: none;">Enter the email address you used to upload the video</p>
+                        <p class='existingEmail' style="display: none;">Enter the email address you used to upload the post</p>
 						<label for=email>Email</label>
 						<input id=email name=email type=email placeholder="example@domain.com" required autofocus></input>
                     <br/>
@@ -93,9 +92,11 @@
 
 					</li>
 				</ol>
-                <input id="agree" name="agree" type="checkbox" checked>I acknowledge that this video is relevant to the mission of the Humanitarian UAV Network and that it does not violate privacy or copyrights. I also confirm that I have read the Network's <a href="http://uaviators.org/docs" target="_blank">Code of Conduct</a>.</input>
-
-                <button type=submit id="submit" name="submit" style="margin-top: 5px;">Submit</button>
+                <input id="agree" name="agree" type="checkbox" checked>I acknowledge that this post is relevant to the mission of the Humanitarian UAV Network and that it does not violate privacy or copyrights. I also confirm that I have read the Network's <a href="http://uaviators.org/docs" target="_blank">Code of Conduct</a>.</input>
+                <div class='btn-divider'>
+                    <button type="button" id="cancel" name="cancel" onclick="window.location.href='#close';" style="margin-top: 5px;">Cancel</button>
+                    <button type="submit" id="submit" name="submit" style="margin-top: 5px;">Submit</button>
+                </div>
 			</fieldset>
 
 
@@ -113,13 +114,13 @@
     </div>
     <div id="commentDialog" class='alertDialog'>
         <div>
-            <label for='flagComment'>Please comment on why you are flagging this video:</label><br />
+            <label for='flagComment'>Please comment on why you are flagging this:</label><br />
             <input id='flagComment' name='flagComment' type='text' required autofocus></input>
         </div>
     </div>
     <div id="deleteDialog" class='alertDialog'>
         <div>
-            <label for='deleteComment'>Please enter your email to confirm you own this video:</label><br />
+            <label for='deleteComment'>Please enter your email to confirm you own this:</label><br />
             <input id='deleteEmail' name='deleteEmail' type='text' required autofocus></input>
         </div>
     </div>
