@@ -27,9 +27,9 @@ $(function() {
         });
 **/
     var autoGeoRefresh = setInterval(function() { // Call out to get the time
-        var requestURL = "http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/getdrones" //'http://gis.micromappers.org/drone/rest/web/jsonp/getdrones';
+        var requestURL = "http://st1.uaviators.org/drone/rest/web/jsonp/getdrones" //'http://gis.micromappers.org/drone/rest/web/jsonp/getdrones';
         if (typeof indexID != 'undefined')
-            requestURL = 'http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/drones/after/' + indexID; //'http://gis.micromappers.org/drone/rest/web/jsonp/drones/after/'
+            requestURL = 'http://st1.uaviators.org/drone/rest/web/jsonp/drones/after/' + indexID; //'http://gis.micromappers.org/drone/rest/web/jsonp/drones/after/'
 
         $.ajax({
             type: 'GET',
@@ -189,7 +189,8 @@ $(function() {
             $("#commentDialog label").after("<div class='error'>You must add a comment</div>");
         } else {
             jsonData = JSON.stringify({ "id": activeVideo.vidId, "comment": comment });
-            $.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/report/post", jsonData);
+            $.post("http://st1.uaviators.org/drone/rest/report/post", jsonData);
+           // $.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/report/post", jsonData);
             $("#commentDialog").dialog("close");
             $("#commentDialog #flagComment").val("");
         }
@@ -217,7 +218,8 @@ $(function() {
         tinyMap.setCenter(lonLat,5);
 
         $("#uavInfo").append("<input id='vId' type='hidden' value='" + activeVideo.vidId + "'></input>")
-        $("#uavInfo").attr('action', "http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/update");
+       // $("#uavInfo").attr('action', "http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/update");
+        $("#uavInfo").attr('action', "http://st1.uaviators.org/drone/rest/web/update");
     }
 
     function deleteVideoConfirm() {
@@ -230,18 +232,19 @@ $(function() {
 
     function submitDelete() {
         var email = $("#deleteDialog input").val();
-        if (true) {
+        if (true) { // email == openVidEmail
             jsonData = JSON.stringify({ "id": activeVideo.vidId, "email": email });
-            $.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData)
-                .success(function() {
-                    $("#deleteDialog").dialog("close");
-                    $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
-                    window.location.href='#close';
-                })
-                .fail(function() {
-                    alert("Sorry, unable to delete video. Please make sure you used the same email to submit the video");
-                });
-            
+            //$.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData, function(data, response) {
+                // alert(response);
+           // });
+
+            $.post("http://st1.uaviators.org/drone/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData, function(data, response) {
+                 alert(response);
+            });
+
+            $("#deleteDialog").dialog("close");
+            $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
+            window.location.href='#close';
         } else {
             $("#deleteDialog label").after("<div class='error'>That email is not correct.</div>");
             $("#deleteDialog label").hide();
