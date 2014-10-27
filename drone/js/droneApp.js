@@ -230,14 +230,18 @@ $(function() {
 
     function submitDelete() {
         var email = $("#deleteDialog input").val();
-        if (true) { // email == openVidEmail
+        if (true) {
             jsonData = JSON.stringify({ "id": activeVideo.vidId, "email": email });
-            $.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData, function(data, response) {
-                // alert(response);
-            });
-            $("#deleteDialog").dialog("close");
-            $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
-            window.location.href='#close';
+            $.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData)
+                .success(function() {
+                    $("#deleteDialog").dialog("close");
+                    $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
+                    window.location.href='#close';
+                })
+                .fail(function() {
+                    alert("Sorry, unable to delete video. Please make sure you used the same email to submit the video");
+                });
+            
         } else {
             $("#deleteDialog label").after("<div class='error'>That email is not correct.</div>");
             $("#deleteDialog label").hide();
