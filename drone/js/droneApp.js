@@ -233,18 +233,16 @@ $(function() {
     function submitDelete() {
         var email = $("#deleteDialog input").val();
         jsonData = JSON.stringify({ "id": activeVideo.vidId, "email": email });
-	$.post("http://st1.uaviators.org/drone/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData)
-                .success(function() {
-                    $("#deleteDialog").dialog("close");
-                    $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
-                    window.location.href='#close';
-                })
-                .fail(function() {
-                    $("#deleteDialog label").after("<div class='error'>Sorry, unable to delete video. Please make sure you used the same email to submit the video.</div>");
-                    $("#deleteDialog label").hide();
-                    $("#deleteDialog input").hide();
-                    $("#deleteDialog").dialog( "option", "buttons", [ { text: "Cancel", click: function() { $(this).dialog("close"); } } ] );
-                });
+        $.post("http://st1.uaviators.org/drone/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData, function(data, response) {
+            $("#deleteDialog").dialog("close");
+            $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
+            window.location.href='#close';
+        }).fail(function() {
+                $("#deleteDialog label").after("<div class='error'>Sorry, unable to delete video. Please make sure you used the same email to submit the video.</div>");
+                $("#deleteDialog label").hide();
+                $("#deleteDialog input").hide();
+                $("#deleteDialog").dialog( "option", "buttons", [ { text: "Cancel", click: function() { $(this).dialog("close"); } } ] );
+            });
     }
 
     function hasAllRequiredFields(){
@@ -327,6 +325,6 @@ $(function() {
     	$("#openModal .existingEmail").hide();
 
     	$("#uavInfo #vId").remove();
-        $("#uavInfo").attr('action', "http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/add");
+        $("#uavInfo").attr('action', "http://st1.uaviators.org/drone/rest/web/add");
     });
 });
