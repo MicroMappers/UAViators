@@ -233,7 +233,7 @@ $(function() {
     function submitDelete() {
         var email = $("#deleteDialog input").val();
         jsonData = JSON.stringify({ "id": activeVideo.vidId, "email": email });
-	$.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData)
+	$.post("http://st1.uaviators.org/drone/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData)
                 .success(function() {
                     $("#deleteDialog").dialog("close");
                     $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
