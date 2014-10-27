@@ -240,7 +240,10 @@ $(function() {
                     window.location.href='#close';
                 })
                 .fail(function() {
-                    alert("Sorry, unable to delete video. Please make sure you used the same email to submit the video");
+                    $("#deleteDialog label").after("<div class='error'>Sorry, unable to delete video. Please make sure you used the same email to submit the video.</div>");
+                    $("#deleteDialog label").hide();
+                    $("#deleteDialog input").hide();
+                    $("#deleteDialog").dialog( "option", "buttons", [ { text: "Cancel", click: function() { $(this).dialog("close"); } } ] );
                 });
     }
 
