@@ -163,12 +163,15 @@ $(function() {
             data.features = geoInfoProperty;
             data.info = info;
             if ($("input#vId").length)
-          		data.id = $("input#vId").val();
+          		data.id = parseInt($("input#vId").val());
 
             var myString = JSON.stringify(data);
             var urlPost = $("#uavInfo").attr('action');
 
-            $.post( urlPost, myString );
+            $.post( urlPost, myString ).success(function() {
+                if ($("input#vId").length)
+                    $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
+            });
             window.location.href='#close';
         }
     });
@@ -188,7 +191,7 @@ $(function() {
         if (comment == "" || comment == undefined) {
             $("#commentDialog label").after("<div class='error'>You must add a comment</div>");
         } else {
-            jsonData = JSON.stringify({ "id": activeVideo.vidId, "comment": comment });
+            jsonData = JSON.stringify({ "id": parseInt(activeVideo.vidId), "comment": comment });
             $.post("http://st1.uaviators.org/drone/rest/report/post", jsonData);
            // $.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/report/post", jsonData);
             $("#commentDialog").dialog("close");
@@ -232,17 +235,20 @@ $(function() {
 
     function submitDelete() {
         var email = $("#deleteDialog input").val();
-        jsonData = JSON.stringify({ "id": activeVideo.vidId, "email": email });
-        $.post("http://st1.uaviators.org/drone/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData, function(data, response) {
-            $("#deleteDialog").dialog("close");
-            $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
-            window.location.href='#close';
-        }).fail(function() {
-                $("#deleteDialog label").after("<div class='error'>Sorry, unable to delete video. Please make sure you used the same email to submit the video.</div>");
-                $("#deleteDialog label").hide();
-                $("#deleteDialog input").hide();
-                $("#deleteDialog").dialog( "option", "buttons", [ { text: "Cancel", click: function() { $(this).dialog("close"); } } ] );
-            });
+        if (email && email != "") {
+            jsonData = JSON.stringify({ "id": activeVideo.vidId, "email": email });
+            $.post("http://st1.uaviators.org/drone/rest/web/jsonp/delete/" + parseInt(activeVideo.vidId) + "/" + email, jsonData, function(data, response) {
+                $("#deleteDialog").dialog("close");
+                $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
+                window.location.href='#close';
+            }).fail(function() {
+                    $("#deleteDialog label").after("<div class='error'>Sorry, unable to delete video. Please make sure you used the same email to submit the video.</div>");
+                    $("#deleteDialog label").hide();
+                    $("#deleteDialog input").hide();
+                    $("#deleteDialog").dialog( "option", "buttons", [ { text: "Cancel", click: function() { $(this).dialog("close"); } } ] );
+                });
+        } else
+            $("#deleteDialog label").after("<div class='error'>You must enter an email address.</div>");
     }
 
     function hasAllRequiredFields(){
