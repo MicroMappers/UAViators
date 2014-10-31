@@ -169,8 +169,10 @@ $(function() {
             var urlPost = $("#uavInfo").attr('action');
 
             $.post( urlPost, myString ).success(function() {
-                if ($("input#vId").length)
+                if ($("input#vId").length) {
                     $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
+                    deleteSelectedMarker(activeVideo.vidId);
+                }
             });
             window.location.href='#close';
         }
@@ -236,10 +238,11 @@ $(function() {
     function submitDelete() {
         var email = $("#deleteDialog input").val();
         if (email && email != "") {
-            jsonData = JSON.stringify({ "id": activeVideo.vidId, "email": email });
-            $.post("http://st1.uaviators.org/drone/rest/web/jsonp/delete/" + parseInt(activeVideo.vidId) + "/" + email, jsonData, function(data, response) {
+            jsonData = JSON.stringify({ "id": parseInt(activeVideo.vidId), "email": email });
+            $.post("http://st1.uaviators.org/drone/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData, function(data, response) {
                 $("#deleteDialog").dialog("close");
                 $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
+                deleteSelectedMarker(activeVideo.vidId);
                 window.location.href='#close';
             }).fail(function() {
                     $("#deleteDialog label").after("<div class='error'>Sorry, unable to delete video. Please make sure you used the same email to submit the video.</div>");
@@ -249,6 +252,15 @@ $(function() {
                 });
         } else
             $("#deleteDialog label").after("<div class='error'>You must enter an email address.</div>");
+    }
+
+    function deleteSelectedMarker(id) {
+        for (var i in geoLayerCollection) {
+            var layer = geoLayerCollection[i];
+            if (layer.id == id)
+                map.removeLayer(layer.layer);
+        }
+        return false;
     }
 
     function hasAllRequiredFields(){
