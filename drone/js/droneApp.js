@@ -257,8 +257,10 @@ $(function() {
     function deleteSelectedMarker(id) {
         for (var i in geoLayerCollection) {
             var layer = geoLayerCollection[i];
-            if (layer.id == id)
+            if (layer.id == id) {
                 map.removeLayer(layer.layer);
+                geoLayerCollection.splice(geoLayerCollection.indexOf(layer), 1);
+            }
         }
         return false;
     }
