@@ -90,7 +90,7 @@ $(function() {
                             activeVideo.lng = getSelectedLayerCoordinates(layer)[0];
                             activeVideo.lat = getSelectedLayerCoordinates(layer)[1];
                         });
-                        geoLayerCollection.push( new layerInfo(layer, item.info.url, item.info.displayName, item.info.id, item.info.email, item.features.geometry.coordinates) ) ;
+                        geoLayerCollection.push( new layerInfo(layer, item.info.url, item.info.displayName, item.info.id, item.info.email, item.features.geometry.coordinates, item) ) ;
                     }
                 });
                 markers.addLayer(layName);
@@ -260,6 +260,7 @@ $(function() {
             if (layer.id == id) {
                 map.removeLayer(layer.layer);
                 geoLayerCollection.splice(geoLayerCollection.indexOf(layer), 1);
+                mapDataCollection.splice(mapDataCollection.indexOf(layer.dataSource), 1);
             }
         }
         return false;
@@ -282,13 +283,14 @@ $(function() {
         return false;
     }
 
-    function layerInfo(layer, vURL, name, id, email, coordinates) {
+    function layerInfo(layer, vURL, name, id, email, coordinates, dataSource) {
         this.layer=layer;
         this.url = vURL;
         this.name = name;
         this.id = id;
         this.email = email;
         this.coordinates = coordinates;
+        this.dataSource = dataSource;
     }
 
     function getSelectedLayerURL(layer) {
