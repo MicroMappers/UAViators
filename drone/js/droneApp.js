@@ -13,7 +13,9 @@ $(function() {
     $(".ui-icon").text("X");
     var listRetrieved = false;
     var videoList = [];
-    var activeVideo = {}
+    var activeVideo = {};
+    var nepalBound = L.polygon([[[80.0584699,26.3479661],[80.0584699,30.4469452],[88.2015257,30.4469452],[88.2015257,26.3479661],[80.0584699,26.3479661]]]);
+
 /**
     var requestURL = 'http://localhost:8081/AIDRTrainerAPI/rest/drone/jsonp/getdrones';
     $.ajax({
@@ -56,10 +58,14 @@ $(function() {
             	url: field.info.url, 
             	name: field.info.displayName, 
             	lat: field.features.geometry.coordinates[1], 
-            	lng: field.features.geometry.coordinates[0] }
-            videoList.push(video);
-            mapDataCollection.push(field);
-            dataCount++;
+                lng: field.features.geometry.coordinates[0]
+            }
+            if (nepalBound.getBounds().contains(field.features.geometry.coordinates)){
+                videoList.push(video);
+                mapDataCollection.push(field);
+                dataCount++;    
+            }
+            
         });
 
         if (dataCount > 0) {
@@ -101,34 +107,36 @@ $(function() {
     function displayAllRow(data){
         $.each(data, function(i, field){
 
-            if(!checkDuplicateEntry(field.info.url)){
-                var displayTxt = '<a href="#uavOpenModal">';
-                displayTxt =  displayTxt + '<p class="displayName"><b>'+ field.info.displayName +'</b></p>';
-                displayTxt =  displayTxt + '<p>'+ field.info.created +'</p></a>';
+            if (nepalBound.getBounds().contains(field.features.geometry.coordinates)){
+                if(!checkDuplicateEntry(field.info.url)){
+                    var displayTxt = '<a href="#uavOpenModal">';
+                    displayTxt =  displayTxt + '<p class="displayName"><b>'+ field.info.displayName +'</b></p>';
+                    displayTxt =  displayTxt + '<p>'+ field.info.created +'</p></a>';
 
-                var hiddenURL = '<input name="uavVideURL" class="uavVideURL" email="' + field.info.email + '" type="hidden" value = "'+ field.info.url +'"/>';
-                var hiddenLat = '<input name="uavCoords" class="uavLat" type="hidden" value="'+ field.features.geometry.coordinates[1] +'"/>';
-                var hiddenLng = '<input name="uavCoords" class="uavLng" type="hidden" value="'+ field.features.geometry.coordinates[0] +'"/>';
-                var liContent = displayTxt + hiddenURL + hiddenLat + hiddenLng;
-                $( "#tweetList" ).prepend($("<li class='ui-widget-content' name='" + field.info.id + "'></li>").html(liContent));
-                $("#tweetList li").unbind("click").click(function(evt) {
-                    // console.log("clicker!!!");
-                    // var answer = $(evt.currentTarget).text();
-                    // var answer2 =$(evt.currentTarget).children('#uavVideURL');
-                    var url = $(evt.currentTarget).children('.uavVideURL').attr('value');
-                    var src = getSrcUrl(url);
-                    $("#uavVideo").attr('src', src);
-                    activeVideo.vidId = $(evt.currentTarget).attr('name');
-                    activeVideo.name = $(evt.currentTarget).find('.displayName').text();
-                    activeVideo.lng = $(evt.currentTarget).find('.uavLng').val();
-                    activeVideo.lat = $(evt.currentTarget).find('.uavLat').val();
-                    activeVideo.email = $(evt.currentTarget).children('.uavVideURL').attr('email');
-                    activeVideo.url = url;
-                    //var vid =  $(this).attr("uavVideURL");
-                    // console.log($(evt.currentTarget));
-                    // console.log(this);
-                    // usersid =  $(this).attr("uavVideoID");
-                });
+                    var hiddenURL = '<input name="uavVideURL" class="uavVideURL" email="' + field.info.email + '" type="hidden" value = "'+ field.info.url +'"/>';
+                    var hiddenLat = '<input name="uavCoords" class="uavLat" type="hidden" value="'+ field.features.geometry.coordinates[1] +'"/>';
+                    var hiddenLng = '<input name="uavCoords" class="uavLng" type="hidden" value="'+ field.features.geometry.coordinates[0] +'"/>';
+                    var liContent = displayTxt + hiddenURL + hiddenLat + hiddenLng;
+                    $( "#tweetList" ).prepend($("<li class='ui-widget-content' name='" + field.info.id + "'></li>").html(liContent));
+                    $("#tweetList li").unbind("click").click(function(evt) {
+                        // console.log("clicker!!!");
+                        // var answer = $(evt.currentTarget).text();
+                        // var answer2 =$(evt.currentTarget).children('#uavVideURL');
+                        var url = $(evt.currentTarget).children('.uavVideURL').attr('value');
+                        var src = getSrcUrl(url);
+                        $("#uavVideo").attr('src', src);
+                        activeVideo.vidId = $(evt.currentTarget).attr('name');
+                        activeVideo.name = $(evt.currentTarget).find('.displayName').text();
+                        activeVideo.lng = $(evt.currentTarget).find('.uavLng').val();
+                        activeVideo.lat = $(evt.currentTarget).find('.uavLat').val();
+                        activeVideo.email = $(evt.currentTarget).children('.uavVideURL').attr('email');
+                        activeVideo.url = url;
+                        //var vid =  $(this).attr("uavVideURL");
+                        // console.log($(evt.currentTarget));
+                        // console.log(this);
+                        // usersid =  $(this).attr("uavVideoID");
+                    });
+                }
             }
          });
     }

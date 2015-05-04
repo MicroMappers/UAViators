@@ -204,6 +204,6 @@ function search(city) {
 }
 
 initialize();
-search("Philippines");
+//search("Philippines");
 
 
