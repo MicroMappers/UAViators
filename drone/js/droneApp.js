@@ -42,6 +42,23 @@ $(function() {
             jsonpCallback: "jsonp",
         });
     }, 5000);// end check
+	
+	$(window).load(function(){
+		var requestURL = "http://st1.uaviators.org/drone/rest/web/jsonp/getdrones"
+        if (typeof indexID != 'undefined')
+            requestURL = 'http://st1.uaviators.org/drone/rest/web/jsonp/drones/after/' + indexID; //'http://gis.micromappers.org/drone/rest/web/jsonp/drones/after/'
+
+        $.ajax({
+            type: 'GET',
+            url: requestURL,
+            dataType: 'jsonp',
+            timeout: 4000,
+            success: renderList,
+            error: failedRenderList,
+            jsonp: false,
+            jsonpCallback: "jsonp",
+        });
+	});
 
     function renderList(data) {
         var dataCount = 0;
