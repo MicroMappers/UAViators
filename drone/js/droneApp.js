@@ -26,39 +26,31 @@ $(function() {
             jsonpCallback: "jsonp"
         });
 **/
+
+  function fetchDroneList(){
+    var requestURL = "http://st1.uaviators.org/drone/rest/web/jsonp/getdrones"
+      if (typeof indexID != 'undefined')
+          requestURL = 'http://st1.uaviators.org/drone/rest/web/jsonp/drones/after/' + indexID; //'http://gis.micromappers.org/drone/rest/web/jsonp/drones/after/'
+      $.ajax({
+          type: 'GET',
+          url: requestURL,
+          dataType: 'jsonp',
+          timeout: 20000,
+          success: renderList,
+          error: failedRenderList,
+          jsonp: false,
+          jsonpCallback: "jsonp",
+      });
+  }
+    //fetch Drone list First time
+    fetchDroneList();
+
+    //refreshing data in every 40 seconds
     var autoGeoRefresh = setInterval(function() { // Call out to get the time
-        var requestURL = "http://st1.uaviators.org/drone/rest/web/jsonp/getdrones" //'http://gis.micromappers.org/drone/rest/web/jsonp/getdrones';
-        if (typeof indexID != 'undefined')
-            requestURL = 'http://st1.uaviators.org/drone/rest/web/jsonp/drones/after/' + indexID; //'http://gis.micromappers.org/drone/rest/web/jsonp/drones/after/'
+      fetchDroneList();
+    }, 40000);// end check
 
-        $.ajax({
-            type: 'GET',
-            url: requestURL,
-            dataType: 'jsonp',
-            timeout: 4000,
-            success: renderList,
-            error: failedRenderList,
-            jsonp: false,
-            jsonpCallback: "jsonp",
-        });
-    }, 5000);// end check
-	
-	$(window).load(function(){
-		var requestURL = "http://st1.uaviators.org/drone/rest/web/jsonp/getdrones"
-        if (typeof indexID != 'undefined')
-            requestURL = 'http://st1.uaviators.org/drone/rest/web/jsonp/drones/after/' + indexID; //'http://gis.micromappers.org/drone/rest/web/jsonp/drones/after/'
 
-        $.ajax({
-            type: 'GET',
-            url: requestURL,
-            dataType: 'jsonp',
-            timeout: 4000,
-            success: renderList,
-            error: failedRenderList,
-            jsonp: false,
-            jsonpCallback: "jsonp",
-        });
-	});
 
     function renderList(data) {
         var dataCount = 0;
@@ -68,11 +60,11 @@ $(function() {
 
         $.each(data, function(i, field) {
             video = {
-            	vidId: field.info.id, 
-            	email: null, 
-            	url: field.info.url, 
-            	name: field.info.displayName, 
-            	lat: field.features.geometry.coordinates[1], 
+            	vidId: field.info.id,
+            	email: null,
+            	url: field.info.url,
+            	name: field.info.displayName,
+            	lat: field.features.geometry.coordinates[1],
             	lng: field.features.geometry.coordinates[0] }
             videoList.push(video);
             mapDataCollection.push(field);
@@ -162,6 +154,8 @@ $(function() {
     }
 
     function failedRenderList(jqXHR, textStatus) {
+	console.log("hello");
+	console.log(textStatus);
         $("#loading-gif").remove();
         if (!listRetrieved & !$("#loading-failure").length)
             $("body").append("<div id='loading-failure'><h1>Sorry, couldn't retrieve drone videos. The server appears to be down, please come back later.</h1></div>");
