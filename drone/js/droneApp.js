@@ -91,7 +91,7 @@ $(function() {
                           currentItem = i;
 
                         	var url = getSelectedLayerURL(layer);
-                            populateVideo(url);
+                            populateVideo(url, layer.index);
                             window.location.href='#uavOpenModal';
                             activeVideo.vidId = getSelectedLayerID(layer);
                             activeVideo.name = getSelectedLayerName(layer);
@@ -128,7 +128,7 @@ $(function() {
                     // var answer = $(evt.currentTarget).text();
                     // var answer2 =$(evt.currentTarget).children('#uavVideURL');
                     var url = $(evt.currentTarget).children('.uavVideURL').attr('value');
-                    populateVideo(url);
+                    populateVideo(url, $(evt.currentTarget).find('.index').val());
                     activeVideo.vidId = $(evt.currentTarget).attr('name');
                     activeVideo.name = $(evt.currentTarget).find('.displayName').text();
                     activeVideo.lng = $(evt.currentTarget).find('.uavLng').val();
@@ -136,6 +136,7 @@ $(function() {
                     activeVideo.email = $(evt.currentTarget).children('.uavVideURL').attr('email');
                     activeVideo.url = url;
                     activeVideo.index = $(evt.currentTarget).find('.index').val();
+
                     //var vid =  $(this).attr("uavVideURL");
                     // console.log($(evt.currentTarget));
                     // console.log(this);
@@ -244,14 +245,13 @@ $(function() {
 
     function prevVideo(){
       currentIndex = activeVideo.index;
-      console.log('currentIndex: '+currentIndex);
       if(currentIndex < mapDataCollection.length-1){
         currentIndex++
         navigateVideo();
       }
     }
 
-    function populateVideo(url){
+    function populateVideo(url, index){
       var contentType = getContentType(url);
       var src = getSrcUrl(url);
       $("#uavVideo").attr('src', '');
@@ -269,13 +269,21 @@ $(function() {
         $("#zoom-in").show();
         $("#zoom-out").hide();
       }
+
+      $("#prev-btn").show();
+      $("#next-btn").show();
+      if(index == 0){
+        $("#next-btn").hide();
+      }else if(index == mapDataCollection.length-1){
+        $("#prev-btn").hide();
+      }
     }
 
     function navigateVideo(){
       var tempData = mapDataCollection[currentIndex];
 
       var url = tempData.info.url;
-      populateVideo(url);
+      populateVideo(url, currentIndex);
       activeVideo.vidId = tempData.info.id;
       activeVideo.name = tempData.info.displayName;
       activeVideo.lng = tempData.features.geometry.coordinates[0];

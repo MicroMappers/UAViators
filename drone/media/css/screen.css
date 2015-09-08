@@ -52,8 +52,9 @@ header, div#header {
   position: absolute;
   top: 60px;
   left: 10px;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(0, 0, 0, 0.6);
   cursor: pointer;
+  padding: 2px;
 }
 #delete-btn {
   top: 140px;
@@ -70,12 +71,10 @@ header, div#header {
   left: 690px;
 }
 #zoom-in {
-  top: 400px;
-  left: 600px;
+  top: 180px;
 }
 #zoom-out {
-  top: 440px;
-  left: 600px;
+  top: 220px;
 }
 .video-btn:hover {
   background: #1e2506;
