@@ -48,11 +48,34 @@ header, div#header {
   background-color: rgba(0, 0, 0, 0.6);
   cursor: pointer;
 }
+.zoom-btn {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}
 #delete-btn {
   top: 140px;
 }
 #edit-btn {
   top: 100px;
+}
+#prev-btn {
+  top: 233px;
+  left: -40px;
+}
+#next-btn {
+  top: 233px;
+  left: 690px;
+}
+#zoom-in {
+  top: 400px;
+  left: 600px;
+}
+#zoom-out {
+  top: 440px;
+  left: 600px;
 }
 .video-btn:hover {
   background: #1e2506;
@@ -596,9 +619,3 @@ form#uavInfo button:hover, .ui-button:hover, .ui-dialog-buttonpane .ui-button:fi
   border: none;
   background: rgba(255, 255, 255, 0);
 }
-
-
-
-
-
-

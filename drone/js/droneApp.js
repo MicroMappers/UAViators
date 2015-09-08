@@ -78,7 +78,7 @@ $(function() {
             map.fitBounds(markers.getBounds());
         }
     }
-
+    var currentItem = -1;
     function populateMakers(){
         for (var i in mapDataCollection) {
             var item = mapDataCollection[i];
@@ -86,11 +86,12 @@ $(function() {
                  var layName = L.geoJson(item.features, {
                     onEachFeature: function (features, layer) {
                         indexID = item.info.id;
-
+                        layer.index = i;
                         layer.on("click", function (e) {
+                          currentItem = i;
+
                         	var url = getSelectedLayerURL(layer);
-                            var src = getSrcUrl(url);
-                            $("#uavVideo").attr('src', src);
+                            populateVideo(url);
                             window.location.href='#uavOpenModal';
                             activeVideo.vidId = getSelectedLayerID(layer);
                             activeVideo.name = getSelectedLayerName(layer);
@@ -98,6 +99,7 @@ $(function() {
                             activeVideo.url = url;
                             activeVideo.lng = getSelectedLayerCoordinates(layer)[0];
                             activeVideo.lat = getSelectedLayerCoordinates(layer)[1];
+                            activeVideo.index = layer.index;
                         });
                         geoLayerCollection.push( new layerInfo(layer, item.info.url, item.info.displayName, item.info.id, item.info.email, item.features.geometry.coordinates, item) ) ;
                     }
@@ -118,21 +120,22 @@ $(function() {
                 var hiddenURL = '<input name="uavVideURL" class="uavVideURL" email="' + field.info.email + '" type="hidden" value = "'+ field.info.url +'"/>';
                 var hiddenLat = '<input name="uavCoords" class="uavLat" type="hidden" value="'+ field.features.geometry.coordinates[1] +'"/>';
                 var hiddenLng = '<input name="uavCoords" class="uavLng" type="hidden" value="'+ field.features.geometry.coordinates[0] +'"/>';
-                var liContent = displayTxt + hiddenURL + hiddenLat + hiddenLng;
+                var hiddenIndex = '<input name="index" class="index" type="hidden" value="'+ i +'"/>';
+                var liContent = displayTxt + hiddenURL + hiddenLat + hiddenLng + hiddenIndex;
                 $( "#tweetList" ).prepend($("<li class='ui-widget-content' name='" + field.info.id + "'></li>").html(liContent));
                 $("#tweetList li").unbind("click").click(function(evt) {
                     // console.log("clicker!!!");
                     // var answer = $(evt.currentTarget).text();
                     // var answer2 =$(evt.currentTarget).children('#uavVideURL');
                     var url = $(evt.currentTarget).children('.uavVideURL').attr('value');
-                    var src = getSrcUrl(url);
-                    $("#uavVideo").attr('src', src);
+                    populateVideo(url);
                     activeVideo.vidId = $(evt.currentTarget).attr('name');
                     activeVideo.name = $(evt.currentTarget).find('.displayName').text();
                     activeVideo.lng = $(evt.currentTarget).find('.uavLng').val();
                     activeVideo.lat = $(evt.currentTarget).find('.uavLat').val();
                     activeVideo.email = $(evt.currentTarget).children('.uavVideURL').attr('email');
                     activeVideo.url = url;
+                    activeVideo.index = $(evt.currentTarget).find('.index').val();
                     //var vid =  $(this).attr("uavVideURL");
                     // console.log($(evt.currentTarget));
                     // console.log(this);
@@ -140,6 +143,44 @@ $(function() {
                 });
             }
          });
+    }
+
+    diasterImg = $("#diasterImg");
+    $("#zoom-in").click(function(e) {
+      diasterImg.css({
+          width: diasterImg.width() + 30,
+          height: diasterImg.height() + 30
+      });
+      $("#zoom-out").show();
+      e.preventDefault();
+    });
+
+    $("#zoom-out").click(function(e) {
+      if(diasterImg.width() > 680){
+        diasterImg.css({
+            width: diasterImg.width(function(i, w) {
+                return w - 30;
+            }),
+            height: diasterImg.height(function(i, w) {
+                return w - 30;
+            })
+        });
+      } else {
+        $("#zoom-out").hide();
+      }
+      e.preventDefault();
+    });
+
+    function getContentType(origUrl) {
+      var content = "image";
+        if (origUrl.match(/youtube/)) {
+          content = "video";
+        } else if (origUrl.match(/vimeo/)) {
+          content = "video";
+        } else if (origUrl.endsWith('.mp4') || origUrl.endsWith('.MP4')){
+          content = "video";
+        }
+        return content;
     }
 
     function getSrcUrl(origUrl) {
@@ -154,8 +195,6 @@ $(function() {
     }
 
     function failedRenderList(jqXHR, textStatus) {
-	console.log("hello");
-	console.log(textStatus);
         $("#loading-gif").remove();
         if (!listRetrieved & !$("#loading-failure").length)
             $("body").append("<div id='loading-failure'><h1>Sorry, couldn't retrieve drone videos. The server appears to be down, please come back later.</h1></div>");
@@ -192,6 +231,59 @@ $(function() {
     $("#flag-btn").click(reportVideo);
     $("#edit-btn").click(editVideo);
     $("#delete-btn").click(deleteVideoConfirm);
+    $("#prev-btn").click(prevVideo);
+    $("#next-btn").click(nextVideo);
+
+    function nextVideo(){
+      currentIndex = activeVideo.index;
+      if(currentIndex > 0){
+        currentIndex--
+        navigateVideo();
+      }
+    }
+
+    function prevVideo(){
+      currentIndex = activeVideo.index;
+      console.log('currentIndex: '+currentIndex);
+      if(currentIndex < mapDataCollection.length-1){
+        currentIndex++
+        navigateVideo();
+      }
+    }
+
+    function populateVideo(url){
+      var contentType = getContentType(url);
+      var src = getSrcUrl(url);
+      $("#uavVideo").attr('src', '');
+      $("#diasterImg").attr('src', '');
+      if(contentType == "video"){
+        $("#uavVideo").attr('src', src);
+        $("#uavVideo").show();
+        $("#diasterImg").hide();
+        $("#zoom-in").hide();
+        $("#zoom-out").hide();
+      }else{
+        $("#diasterImg").attr('src', src);
+        $("#uavVideo").hide();
+        $("#diasterImg").show();
+        $("#zoom-in").show();
+        $("#zoom-out").hide();
+      }
+    }
+
+    function navigateVideo(){
+      var tempData = mapDataCollection[currentIndex];
+
+      var url = tempData.info.url;
+      populateVideo(url);
+      activeVideo.vidId = tempData.info.id;
+      activeVideo.name = tempData.info.displayName;
+      activeVideo.lng = tempData.features.geometry.coordinates[0];
+      activeVideo.lat = tempData.features.geometry.coordinates[1];
+      activeVideo.email = tempData.info.email;
+      activeVideo.url = url;
+      activeVideo.index = currentIndex;
+    }
 
     function reportVideo() {
         $("#commentDialog .error").remove();
