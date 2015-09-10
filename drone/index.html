@@ -36,6 +36,7 @@
     <header>
 
         <div><a href="http://uaviators.org/map" class="goToUAVHome"></a></div>
+				<div><a id="subscribe-btn" href="#subscribeModal" class="subscribeModal" title="Subscribe Me"><img src='media/images/subscribe.png' width="50px" height="50px"></a></div>
         <div><a href="#openModal" class="addUAV" id="newUAV"></a></div>
 
     </header>
@@ -132,5 +133,33 @@
             <input id='deleteEmail' name='deleteEmail' type='text' required autofocus></input>
         </div>
     </div>
+		<div id="subscribeModal" class="modalDialog">
+			<div>
+				<a href="#close" title="Close" class="close">X</a>
+				<form id="subscribeForm" >
+					<div style="text-align: center; height: 520px">
+						<br/><br/>
+						<span style="font-size: 25px; color: grey;margin-top: 50px">SUBSCRIBE VIA MAIL</span>
+						<br/>
+						<span class='fadded-line'></span>
+						<table style="margin: auto">
+							<tr style="height: 50px"><td style="font-size: 15px">Name</td><td><input type='text' id="subscribe_name" name='name' class='form-control' required/></td></tr>
+							<tr style="height: 57px"><td style="font-size: 15px">Email</td><td><input type='email' id="subscribe_email" name='email' class='form-control' required/></td></tr>
+							<tr style="height: 50px">
+								<td style="font-size: 15px; vertical-align: top">Email Prefrence</td>
+								<td style="font-size: 15px; text-align: left">
+									<input type="radio" name="preference" value="IMAGERY_ADDED" required>As soon as imagery is added<br/><br/>
+									<input type="radio" name="preference" value="DAILY" required>Daily<br/><br/>
+									<input type="radio" name="preference" value="WEEKLY" required>Weekly<br/><br/>
+								</td>
+							</tr>
+							<tr style="height: 50px">
+								<td colspan='2' style="text-align: center"><button type="submit" id="subscribe" class="subscribe-btn" style="margin-top: 5px;">Subscribe</button></td>
+							</tr>
+						</table>
+					<div>
+				</form>
+		  </div>
+		</div>
 </body>
 </html>

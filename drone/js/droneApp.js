@@ -460,4 +460,40 @@ $(function() {
     	$("#uavInfo #vId").remove();
         $("#uavInfo").attr('action', "http://st1.uaviators.org/drone/rest/web/add");
     });
+
+    $('#subscribe-btn').click(function() {
+      $("#subscribeModal").show();
+      document.getElementById("subscribeForm").reset();
+    });
+
+    function userSubscribedSuccess(){
+      alert("You are now subscribed at UAViators Map.");
+      $("#subscribeModal").hide();
+    }
+    function userSubscribedError(){
+      alert("You already subscribed at UAViators Map.");
+    }
+
+    $( "#subscribeForm" ).submit(function( event ) {
+      $.ajax({
+          type: 'POST',
+          url: "http://localhost:8080/MMDRONE/rest/user/subscribe",
+          dataType: 'json',
+          data: {
+            name: $("#subscribe_name").val(),
+            email: $("#subscribe_email").val(),
+            preference: $("input[name=preference]:checked").val()
+          },
+          timeout: 20000,
+          success: function(msg){
+              userSubscribedSuccess();
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            userSubscribedError();
+          }
+      });
+
+      event.preventDefault();
+    });
+
 });
