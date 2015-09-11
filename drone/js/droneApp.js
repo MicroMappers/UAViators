@@ -55,7 +55,7 @@ $(function() {
     function renderList(data) {
         var dataCount = 0;
         listRetrieved = true;
-        $("#loading-gif").remove();
+        $("#loading-gif").hide();
         $("#loading-failure").remove();
 
         $.each(data, function(i, field) {
@@ -196,7 +196,7 @@ $(function() {
     }
 
     function failedRenderList(jqXHR, textStatus) {
-        $("#loading-gif").remove();
+        $("#loading-gif").hide();
         if (!listRetrieved & !$("#loading-failure").length)
             $("body").append("<div id='loading-failure'><h1>Sorry, couldn't retrieve drone videos. The server appears to be down, please come back later.</h1></div>");
     }
@@ -462,19 +462,23 @@ $(function() {
     });
 
     $('#subscribe-btn').click(function() {
-      $("#subscribeModal").show();
+      //$("#subscribeModal").show();
       document.getElementById("subscribeForm").reset();
     });
 
     function userSubscribedSuccess(){
+      $("#loading-gif").hide();
       alert("You are now subscribed at UAViators Map.");
-      $("#subscribeModal").hide();
+      window.location.href = '#close';
+      //$("#subscribeModal").hide();
     }
     function userSubscribedError(){
+      $("#loading-gif").hide();
       alert("You already subscribed at UAViators Map.");
     }
 
     $( "#subscribeForm" ).submit(function( event ) {
+      $("#loading-gif").show();
       $.ajax({
           type: 'POST',
           url: "http://localhost:8080/MMDRONE/rest/user/subscribe",

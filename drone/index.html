@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="dist/leaflet.css" />
     <link rel="stylesheet" href="dist/Control.OSMGeocoder.css" />
     <link rel="stylesheet" href="media/css/screen.css" />
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="dist/MarkerCluster.css" />
 		<link rel="stylesheet" href="dist/MarkerCluster.Default.css" />
 
@@ -36,8 +37,20 @@
     <header>
 
         <div><a href="http://uaviators.org/map" class="goToUAVHome"></a></div>
-				<div><a id="subscribe-btn" href="#subscribeModal" class="subscribeModal" title="Subscribe Me"><img src='media/images/subscribe.png' width="50px" height="50px"></a></div>
-        <div><a href="#openModal" class="addUAV" id="newUAV"></a></div>
+				<!-- <div><a id="subscribe-btn" href="#subscribeModal" class="subscribeModal" title="Subscribe Me"><img src='media/images/subscribe.png' width="50px" height="50px"></a></div>
+        <div><a href="#openModal" class="addUAV" id="newUAV"></a></div> -->
+
+				<nav id="primary_nav_wrap" style="position: absolute; right: 10px; top: 20px">
+					<ul>
+					  <li >
+							<a href="#" style="padding-left: 90px"><i class="fa fa-bars" style="font-size: 26px;margin-top: 5px;background-color: white"></i></a>
+					    <ul>
+					      <li><a id="subscribe-btn" href="#subscribeModal" title="Subscribe Me"><i class="fa fa-envelope"></i> Subscribe Me</a></li>
+					      <li><a href="#openModal" id="newUAV"><i class="fa fa-map-marker"></i> Add Imagery</a></li>
+					    </ul>
+					  </li>
+					</ul>
+				</nav>
 
     </header>
     <div id='loading-gif'><img src="media/images/loading3.gif" width="80" height="80" /></div>
