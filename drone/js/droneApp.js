@@ -458,7 +458,8 @@ $(function() {
     	$("#openModal .existingEmail").hide();
 
     	$("#uavInfo #vId").remove();
-        $("#uavInfo").attr('action', "http://st1.uaviators.org/drone/rest/web/add");
+      //$("#uavInfo").attr('action', "http://st1.uaviators.org/drone/rest/web/add");
+      $("#uavInfo").attr('action', "http://localhost:8080/MMDRONE/rest/web/add");
     });
 
     $('#subscribe-btn').click(function() {
