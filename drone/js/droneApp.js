@@ -14,23 +14,15 @@ $(function() {
     var listRetrieved = false;
     var videoList = [];
     var activeVideo = {}
-/**
-    var requestURL = 'http://localhost:8081/AIDRTrainerAPI/rest/drone/jsonp/getdrones';
-    $.ajax({
-            type: 'GET',
-            url: requestURL,
-            dataType: 'jsonp',
-            success: renderList,
-            error: FailedRenderList,
-            jsonp: false,
-            jsonpCallback: "jsonp"
-        });
-**/
+
+    var webUrl = 'http://st1.uaviators.org/drone'; // production
+    //var webUrl = 'http://199.223.234.225/drone'; // test server
+    //var webUrl = 'http://localhost:8080/MMDRONE'; //local
 
   function fetchDroneList(){
-    var requestURL = "http://st1.uaviators.org/drone/rest/web/jsonp/getdrones"
+    var requestURL = webUrl + "/rest/web/jsonp/getdrones"
       if (typeof indexID != 'undefined')
-          requestURL = 'http://st1.uaviators.org/drone/rest/web/jsonp/drones/after/' + indexID; //'http://gis.micromappers.org/drone/rest/web/jsonp/drones/after/'
+          requestURL = webUrl + '/rest/web/jsonp/drones/after/' + indexID; //'http://gis.micromappers.org/drone/rest/web/jsonp/drones/after/'
       $.ajax({
           type: 'GET',
           url: requestURL,
@@ -305,7 +297,7 @@ $(function() {
             $("#commentDialog label").after("<div class='error'>You must add a comment</div>");
         } else {
             jsonData = JSON.stringify({ "id": parseInt(activeVideo.vidId), "comment": comment });
-            $.post("http://st1.uaviators.org/drone/rest/report/post", jsonData);
+            $.post(webUrl + "/rest/report/post", jsonData);
            // $.post("http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/report/post", jsonData);
             $("#commentDialog").dialog("close");
             $("#commentDialog #flagComment").val("");
@@ -335,7 +327,7 @@ $(function() {
 
         $("#uavInfo").append("<input id='vId' type='hidden' value='" + activeVideo.vidId + "'></input>")
        // $("#uavInfo").attr('action', "http://qcricl1linuxvm2.cloudapp.net:8081/AIDRDRONE/rest/web/update");
-        $("#uavInfo").attr('action', "http://st1.uaviators.org/drone/rest/web/update");
+        $("#uavInfo").attr('action', webUrl + "/rest/web/update");
     }
 
     function deleteVideoConfirm() {
@@ -350,7 +342,7 @@ $(function() {
         var email = $("#deleteDialog input").val();
         if (email && email != "") {
             jsonData = JSON.stringify({ "id": parseInt(activeVideo.vidId), "email": email });
-            $.post("http://st1.uaviators.org/drone/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData, function(data, response) {
+            $.post(webUrl + "/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData, function(data, response) {
                 $("#deleteDialog").dialog("close");
                 $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
                 deleteSelectedMarker(activeVideo.vidId);
@@ -458,8 +450,7 @@ $(function() {
     	$("#openModal .existingEmail").hide();
 
     	$("#uavInfo #vId").remove();
-      //$("#uavInfo").attr('action', "http://st1.uaviators.org/drone/rest/web/add");
-      $("#uavInfo").attr('action', "http://localhost:8080/MMDRONE/rest/web/add");
+      $("#uavInfo").attr('action', webUrl + "/rest/web/add");
     });
 
     $('#subscribe-btn').click(function() {
@@ -482,7 +473,7 @@ $(function() {
       $("#loading-gif").show();
       $.ajax({
           type: 'POST',
-          url: "http://localhost:8080/MMDRONE/rest/user/subscribe",
+          url: webUrl + "/rest/user/subscribe",
           dataType: 'json',
           data: {
             name: $("#subscribe_name").val(),
