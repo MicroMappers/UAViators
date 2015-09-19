@@ -30,7 +30,7 @@
         var mapDataCollection = [];
 
         var geoInfoProperty;
-        var indexID;
+        var indexID;				
     </script>
 </head>
 <body>
@@ -45,8 +45,8 @@
 					  <li >
 							<a href="#" style="padding-left: 90px"><i class="fa fa-bars" style="font-size: 26px;margin-top: 5px;background-color: white"></i></a>
 					    <ul>
-					      <li><a id="subscribe-btn" href="#subscribeModal" title="Subscribe Me"><i class="fa fa-envelope"></i> Subscribe Me</a></li>
-					      <li><a href="#openModal" id="newUAV"><i class="fa fa-map-marker"></i> Add Imagery</a></li>
+								<li><a href="#openModal" id="newUAV"><i class="fa fa-map-marker"></i> Add Imagery</a></li>
+					      <li><a id="subscribe-btn" href="#subscribeModal" title="Subscribe Me"><i class="fa fa-envelope"></i> Imagery Alerts</a></li>
 					    </ul>
 					  </li>
 					</ul>
@@ -152,9 +152,11 @@
 				<form id="subscribeForm" >
 					<div style="text-align: center; height: 520px">
 						<br/><br/>
-						<span style="font-size: 25px; color: grey;margin-top: 50px">SUBSCRIBE VIA MAIL</span>
+						<span style="font-size: 25px; color: grey;margin-top: 50px">Sign up for Email Alerts</span>
 						<br/>
 						<span class='fadded-line'></span>
+						<span style="font-size: 12px">To receive alerts when new imagery is added to the map, please add your information below.</span>
+						<br/>
 						<table style="margin: auto">
 							<tr style="height: 50px"><td style="font-size: 15px">Name</td><td><input type='text' id="subscribe_name" name='name' class='form-control' required/></td></tr>
 							<tr style="height: 57px"><td style="font-size: 15px">Email</td><td><input type='email' id="subscribe_email" name='email' class='form-control' required/></td></tr>
@@ -162,12 +164,12 @@
 								<td style="font-size: 15px; vertical-align: top">Email Prefrence</td>
 								<td style="font-size: 15px; text-align: left">
 									<input type="radio" name="preference" value="IMAGERY_ADDED" required>As soon as imagery is added<br/><br/>
-									<input type="radio" name="preference" value="DAILY" required>Daily<br/><br/>
-									<input type="radio" name="preference" value="WEEKLY" required>Weekly<br/><br/>
+									<input type="radio" name="preference" value="DAILY" required>Daily Digest<br/><br/>
+									<input type="radio" name="preference" value="WEEKLY" required>Weekly Digest<br/><br/>
 								</td>
 							</tr>
 							<tr style="height: 50px">
-								<td colspan='2' style="text-align: center"><button type="submit" id="subscribe" class="subscribe-btn" style="margin-top: 5px;">Subscribe</button></td>
+								<td colspan='2' style="text-align: center"><button type="submit" id="subscribe" class="subscribe-btn" style="margin-top: 5px;">Sign Up</button></td>
 							</tr>
 						</table>
 					<div>

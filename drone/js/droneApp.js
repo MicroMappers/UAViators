@@ -19,6 +19,8 @@ $(function() {
     //var webUrl = 'http://199.223.234.225/drone'; // test server
     //var webUrl = 'http://localhost:8080/MMDRONE'; //local
 
+
+
   function fetchDroneList(){
     var requestURL = webUrl + "/rest/web/jsonp/getdrones"
       if (typeof indexID != 'undefined')
@@ -342,17 +344,26 @@ $(function() {
         var email = $("#deleteDialog input").val();
         if (email && email != "") {
             jsonData = JSON.stringify({ "id": parseInt(activeVideo.vidId), "email": email });
+
             $.post(webUrl + "/rest/web/jsonp/delete/" + activeVideo.vidId + "/" + email, jsonData, function(data, response) {
                 $("#deleteDialog").dialog("close");
                 $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
                 deleteSelectedMarker(activeVideo.vidId);
                 window.location.href='#close';
-            }).fail(function() {
-                    $("#deleteDialog label").after("<div class='error'>Sorry, unable to delete video. Please make sure you used the same email to submit the video.</div>");
-                    $("#deleteDialog label").hide();
-                    $("#deleteDialog input").hide();
-                    $("#deleteDialog").dialog( "option", "buttons", [ { text: "Cancel", click: function() { $(this).dialog("close"); } } ] );
-                });
+            }).fail(function(response) {
+              temp = response.responseText;
+              if(JSON.parse(temp.substring(6,temp.length - 2)).status == 200){
+                  $("#deleteDialog").dialog("close");
+                  $("#tweetList li[name=" + activeVideo.vidId + "]").remove();
+                  deleteSelectedMarker(activeVideo.vidId);
+                  window.location.href='#close';
+              }else{
+                  $("#deleteDialog label").after("<div class='error'>Sorry, unable to delete video. Please make sure you used the same email to submit the video.</div>");
+                  $("#deleteDialog label").hide();
+                  $("#deleteDialog input").hide();
+                  $("#deleteDialog").dialog( "option", "buttons", [ { text: "Cancel", click: function() { $(this).dialog("close"); } } ] );
+              }
+            });
         } else
             $("#deleteDialog label").after("<div class='error'>You must enter an email address.</div>");
     }
