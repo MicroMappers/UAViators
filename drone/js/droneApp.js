@@ -16,7 +16,7 @@ $(function() {
     var activeVideo = {}
 
     var webUrl = 'http://st1.uaviators.org/drone'; // production
-    //var webUrl = 'http://199.223.234.225/drone'; // test server
+    //var webUrl = 'http://qa.map.uaviators.org/drone'; // test server
     //var webUrl = 'http://localhost:8080/MMDRONE'; //local
 
 

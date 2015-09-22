@@ -154,7 +154,8 @@ function search(city) {
     }
 
     // Geocode the place using Nominatim OSM service
-    $.getJSON('http://nominatim.openstreetmap.org/search/' + place + '?format=json', function(output) {
+    //$.getJSON('http://nominatim.openstreetmap.org/search/' + place + '?format=json', function(output) {
+    $.getJSON('http://nominatim.qcri.org/search/' + place + '?format=json', function(output) {
         if (output.length >= 1) {
             //console.log("Lon: "+ output[0].lon + " Lat: " + output[0].lat);
             // Clean previous markers
@@ -205,5 +206,3 @@ function search(city) {
 
 initialize();
 search("Philippines");
-
-

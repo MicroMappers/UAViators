@@ -70,7 +70,7 @@ L.Control.OSMGeocoder = L.Control.extend({
 
 		return container;
 	},
-    
+
     /* helper functions for cordinate extraction */
     _createSearchResult : function(lat, lon) {
         //creates an position description similar to the result of a Nominatim search
@@ -171,7 +171,8 @@ L.Control.OSMGeocoder = L.Control.extend({
 			}
 		}
 
-		var url = " http://nominatim.openstreetmap.org/search" + L.Util.getParamString(params),
+		//var url = " http://nominatim.openstreetmap.org/search" + L.Util.getParamString(params),
+		var url = " http://nominatim.qcri.org/search" + L.Util.getParamString(params),
 		script = document.createElement("script");
 
 
